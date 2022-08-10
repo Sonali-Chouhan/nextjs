@@ -3,30 +3,46 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 const Blog = () => {
+
   const router = useRouter();
+
+   const { id } = router.query
+
   
-  const { id } = router.query
-  console.log("id",id)
   const [data, setdata] = useState({
     name: "",
     email: "",
     last: "",
     phone: "",
   });
+
   const [item, setitem] = useState([]);
+
   const [state,setstate]=useState([])
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    item.push({
-      name: data.name,
-      last: data.last,
-      email: data.email,
-      phone: data.phone,
-    });
-
-    setitem(item);
-    localStorage.setItem("Item",JSON.stringify(item))
+    var items =state
+    items=items?items:[]
+    if(id){
+      items.splice(id, 1, {
+          name:data.name,
+          last:data.last,
+          email:data.email,
+          phone:data.phone,
+        });
+      }
+    
+     else{
+      items.push({
+        name: data.name,
+        last: data.last,
+        email: data.email,
+        phone: data.phone,
+      });
+    }
+    setitem(items);
+    localStorage.setItem("Item",JSON.stringify(items))
     setdata({
       ...data,
       name: "",
@@ -35,32 +51,35 @@ const Blog = () => {
       phone: "",
     });
   };
+ 
   useEffect(()=>{
       
     var object = state;
     if (typeof window !== "undefined") {
        object=JSON.parse(localStorage.getItem("Item"));
        console.log("jj",object)
-    }
-     setstate(object);
-     console.log("hhh",state);
-      // const record= object[id]
-      // console.log("gg",record)
-      // if(record){
-      // setdata({
-      //   name:record?.name,
-      //   email:record?.email,
-      //   phone:record?.phone,
-      //   last:record?.last
-      // })
+      }
 
-    
-     
+     setstate(object);
+
+     console.log("jjjjjj",object)
+
+      const record= object[id]
+
+      console.log("gg",record)
+
+      if(record){
+      setdata({
+        name:record?.name,
+        email:record?.email,
+        phone:record?.phone,
+        last:record?.last
+      }) }
     
   },[id])
   return (
     <div>
-      <form>
+      <form onSubmit={ handleSubmit}>
         <label>Name</label><br></br>
         <input
           type="text"
@@ -93,7 +112,13 @@ const Blog = () => {
           onChange={(e) => setdata({ ...data, phone: e.target.value })}
         />
         <br></br>
-        <button onClick={(e) => handleSubmit(e)}>Submit</button>
+        {
+          id ?
+          <button type="submit">Save</button>
+          :
+          <button type="submit">Submit</button>
+        }
+        
       </form>
 
       <Link href="/">back to Home</Link><br></br>

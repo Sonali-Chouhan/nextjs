@@ -45,28 +45,37 @@ const About = () => {
   },[item])
   const handleDelete=(id)=>{
     
-    // const obj=item
-    // obj.splice(id,1)
-    // setitem(...item,obj)
-    // console.log("de",item)
+    const obj=item
+    obj.splice(id,1)
+    setitem(...item,obj)
+    console.log("de",item)
 
   }  
   const handleEdit=(id)=>{
-//     const record=item[id]
-//      setdata({
-//        name:record?.name,
-//        email:record?.email,
-//        phone:record?.phone, 
-//        last:record?.last
-//      })
+    const record=item[id]
+     setdata({
+       name:record?.name,
+       email:record?.email,
+       phone:record?.phone, 
+       last:record?.last
+     })
 }
   const handleUpdate=(id)=>{
-  //   var obj=item[id]
-  //   setdata({
-  //     name:obj.name,
-  //     last:obj.last
-  //   })
-  //   // setitem(...item,obj)
+    
+    var obj=item[id]
+    if(id){
+      obj.splice(id,1,{
+        name:obj.name,
+        las:data.last
+      })
+    }
+    setitem(...item,obj)
+    setdata({
+      ...data,
+      name:"",
+      last:""
+    })
+    // setitem(...item,obj)
     
     
    }

@@ -3,7 +3,10 @@ import Link from "next/link";
 import Router from 'next/router'
 
 const Product = () => {
+
+
   const [state, setstate] = useState();
+
   useEffect(() => {
     var item = state;
     if (typeof window !== "undefined") {
@@ -11,19 +14,22 @@ const Product = () => {
     }
     setstate(item);
   }, []);
+  
+
   const handleDelete = (id) => {
     var item = state;
     item.splice(id, 1);
     localStorage.setItem("Item", JSON.stringify(item));
     setstate(item);
+   
   };
+
   const handleEdit = (id) => {
     Router.push({
       pathname: "/blog",
       query: {id:id},
     })
-    // <Link href={{ pathname:"/blog", query: { id:id} }} />
-  };
+    };
 
   return (
     <div>
@@ -60,7 +66,7 @@ const Product = () => {
        </table>
       <Link href="/blog">Add User</Link> 
       <br></br>
-      <Link href="/">back</Link>
+      <Link href="/">back to Home</Link>
     </div>
   );
 };
